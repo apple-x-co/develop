@@ -1,2 +1,2 @@
 
-This library is wrapper program of "libxml2".
+This library is simple wrapper program of "libxml2".
