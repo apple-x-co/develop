@@ -134,19 +134,17 @@
     self = [super init];
     if (self) {
         self.xml = xml;
+        self.xmlDocPtr = xmlParseMemory([self.xml UTF8String], (int)[self.xml lengthOfBytesUsingEncoding:NSUTF8StringEncoding]);
+        self.xmlRootPtr = xmlDocGetRootElement(self.xmlDocPtr);
     }
     return self;
 }
 
-- (LTXMLNode *)root {
+- (LTXMLNode *)root
+{
     
-    self.xmlDocPtr = xmlParseMemory([self.xml UTF8String], (int)[self.xml lengthOfBytesUsingEncoding:NSUTF8StringEncoding]);
-    
-    self.xmlRootPtr = xmlDocGetRootElement(self.xmlDocPtr);
     LTXMLNode *ltNode = [[LTXMLNode alloc] initWithXMLNodePtr:self.xmlRootPtr];
-    
     return ltNode;
-    
 }
 
 - (NSArray *)xmlNodesByXPath:(NSString *)xpath
