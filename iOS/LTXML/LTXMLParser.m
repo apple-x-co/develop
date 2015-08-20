@@ -30,23 +30,6 @@
 - (LTXMLDoc *)parse
 {
     LTXMLDoc *doc = [[LTXMLDoc alloc] initWithXML:self.xml];
-    LTXMLNode *ltNode = [doc root];
-    
-    NSArray *nodes = [ltNode children];
-    for (LTXMLNode *node in nodes) {
-        NSLog(@"---");
-        
-        NSLog(@"name:%@, content:%@", [node name], [node content]);
-        
-        LTXMLAttribute *attribute = [node attribute:@"driver"];
-        NSLog(@"attr name:%@ content:%@, %@", [attribute name], [attribute content], [node attributeContent:@"driver"]);
-        
-        NSArray *attributes = [node attributes];
-        for (LTXMLAttribute *attr in attributes) {
-            NSLog(@"attr name:%@ content:%@", [attr name], [attr content]);
-        }
-    }
-    
     return doc;
 }
 
