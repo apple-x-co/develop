@@ -52,6 +52,7 @@
 - (instancetype)initWithXML:(NSString *)xml;
 
 - (LTXMLNode *)root;
+- (NSArray *)xmlNodesByXPath:(NSString *)xpath;
 
 @end
 
