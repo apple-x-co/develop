@@ -8,9 +8,11 @@
 
 #import <Foundation/Foundation.h>
 
+#import "LTXML.h"
+
 @interface LTXMLParser : NSObject
 
 - (instancetype)initWithXML:(NSString *)xml;
-- (void)parse;
+- (LTXMLDoc *)parse;
 
 @end
