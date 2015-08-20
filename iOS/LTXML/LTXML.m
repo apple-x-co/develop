@@ -121,6 +121,12 @@
 
 #pragma mark - LTXMLDoc
 
+@interface LTXMLDoc ()
+
+@property (nonatomic, assign) xmlDocPtr xmlDocPtr;
+
+@end
+
 @implementation LTXMLDoc
 
 - (instancetype)initWithXML:(NSString *)xml
@@ -134,13 +140,41 @@
 
 - (LTXMLNode *)root {
     
-    xmlDocPtr xmldoc = xmlParseMemory([self.xml UTF8String], (int)[self.xml lengthOfBytesUsingEncoding:NSUTF8StringEncoding]);
+    self.xmlDocPtr = xmlParseMemory([self.xml UTF8String], (int)[self.xml lengthOfBytesUsingEncoding:NSUTF8StringEncoding]);
     
-    self.xmlRootPtr = xmlDocGetRootElement(xmldoc);
+    self.xmlRootPtr = xmlDocGetRootElement(self.xmlDocPtr);
     LTXMLNode *ltNode = [[LTXMLNode alloc] initWithXMLNodePtr:self.xmlRootPtr];
     
     return ltNode;
     
+}
+
+- (NSArray *)xmlNodesByXPath:(NSString *)xpath
+{
+    xmlXPathContextPtr context = xmlXPathNewContext(self.xmlDocPtr);
+    
+    xmlChar *xmlXPath = (xmlChar *)[xpath UTF8String];
+    xmlXPathObjectPtr result = xmlXPathEvalExpression(xmlXPath, context);
+    
+    xmlXPathFreeContext(context);
+    
+    if (result == nil) {
+        return [NSMutableArray array];
+    }
+    
+    NSMutableArray *nodes = [NSMutableArray array];
+
+    xmlNodeSetPtr nodeset = result->nodesetval;
+    NSInteger count = nodeset->nodeNr;
+    
+    for (NSUInteger i = 0; i < count; i++) {
+        
+        LTXMLNode *xmlNode = [[LTXMLNode alloc] initWithXMLNodePtr:nodeset->nodeTab[i]];
+        [nodes addObject:xmlNode];
+        
+    }
+    
+    return nodes;
 }
 
 @end
