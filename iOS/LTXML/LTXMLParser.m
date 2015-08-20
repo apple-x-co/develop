@@ -8,8 +8,6 @@
 
 #import "LTXMLParser.h"
 
-#import "LTXML.h"
-
 #pragma mark - LTXMLParser
 
 @interface LTXMLParser ()
@@ -29,7 +27,7 @@
     return self;
 }
 
-- (void)parse
+- (LTXMLDoc *)parse
 {
     LTXMLDoc *doc = [[LTXMLDoc alloc] initWithXML:self.xml];
     LTXMLNode *ltNode = [doc root];
@@ -48,6 +46,8 @@
             NSLog(@"attr name:%@ content:%@", [attr name], [attr content]);
         }
     }
+    
+    return doc;
 }
 
 @end
